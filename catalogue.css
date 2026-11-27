@@ -192,7 +192,7 @@ body, body * {font-family:gilroy,sans-serif !important}
 .mk-info-button {flex:none;display:grid;place-items:center;width:28px;height:28px;color:#075f83;cursor:pointer}
 .mk-info-button span {display:grid;place-items:center;width:17px;height:17px;border:1.5px solid currentColor;border-radius:50%;font-size:12px;line-height:1;font-weight:700}
 .mk-info-button[aria-expanded="true"] span {background:#075f83;border-color:#075f83;color:white}
-.mk-show-offer .mk-show-banner {display:block;width:100%;max-height:245px;aspect-ratio:2.5;object-fit:cover;margin-bottom:12px}
+.mk-show-offer .mk-show-banner {display:block;width:100%;height:auto;aspect-ratio:2076 / 864;object-fit:contain;margin-bottom:12px}
 .mk .mk-disclosure {margin:0;min-width:0;background:white;border:1px solid #d8dfe6;border-radius:12px}
 .mk .mk-disclosure > summary {display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px;padding:10px 14px;color:#14202e;font-size:1rem;list-style:none}
 .mk-disclosure > summary::-webkit-details-marker {display:none}
@@ -202,6 +202,8 @@ body, body * {font-family:gilroy,sans-serif !important}
 .mk-caret::after {content:'';width:7px;height:7px;border-right:2px solid;border-bottom:2px solid;transform:translateY(-2px) rotate(45deg)}
 .mk-voucher-panel[open] > summary .mk-caret {background:#172232;color:white}
 .mk-disclosure[open] > summary .mk-caret::after {transform:translateY(2px) rotate(225deg)}
+.mk-products-panel > header {padding:10px 14px}
+.mk-products-panel > header h3 {font-size:1rem;font-weight:700}
 .mk-products-panel > div {padding:0 8px 8px}
 .mk-voucher-list {padding:0 10px 10px}
 .mk-voucher-line {display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid #e5e8eb}
@@ -214,6 +216,11 @@ body:has([role="dialog"][data-state="open"]) .mua_ve_ngay {display:none}
 
 .mk-stub {width:max-content;min-width:58px;align-items:center;justify-content:center;white-space:nowrap;line-height:1.3}
 .mk-products-panel .mk-grid {grid-template-columns:minmax(0,1fr)}
+.mk-line-info:has(del) strong {color:#b42318}
+@container (min-width:660px) {
+  .mk-voucher-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}
+  .mk-products-panel .mk-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 .mk-products-panel .mk-card {
   grid-template-columns:clamp(68px,24%,150px) minmax(0,1fr);
   grid-template-rows:auto auto auto;
@@ -271,6 +278,7 @@ aside:has(> .mk-summary) > button {background:#111827;color:white;min-height:47p
 .mk-banner-copy {padding:10px 12px;background:#f5f7f9;border-radius:8px;margin-top:6px}
 .mk-banner-copy h4:not(:first-child) {margin-top:8px}
 .mk-banner-copy p {line-height:1.5}
+.mk-banner-copy .mk-event-intro {margin:4px 0 10px}
 .mk-show-offer .mk-voucher-offer-note {margin:-3px 0 10px;font-size:.8rem}
 .mk-banner-info > summary span {position:absolute;bottom:8px;right:8px;background:#fff;color:#263344;border-radius:5px;padding:3px 6px;font-size:.7rem}
 .mk .mk-voucher-panel > summary {gap:8px}
@@ -307,7 +315,6 @@ aside:has(> .mk-summary) > button {background:#111827;color:white;min-height:47p
   .mk-show-offer {border:0;border-radius:16px}
   .mk .mk-show-offer > h3 {font-size:clamp(15px,4vw,18px);line-height:22px;margin:0 4px 4px}
   .mk-show-offer .mk-voucher-offer-note {font-size:13px;line-height:16px;margin:0 4px 12px}
-  .mk-show-offer .mk-show-banner {aspect-ratio:382/150}
   .mk .mk-voucher-panel[open] {border:1.5px solid #101828}
   .mk .mk-voucher-panel > summary {min-height:58px;padding:8px 14px;gap:10px;font-size:14px}
   .mk-tier-stack {padding-right:8px}

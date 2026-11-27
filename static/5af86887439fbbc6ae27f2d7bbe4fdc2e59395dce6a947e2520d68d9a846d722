@@ -44,12 +44,12 @@ function NutcrackerCatalogue({addons, selection, onQuantityChange, seats = [], s
         h('div',{className:'mk-merch-controls'},merchPrice(item),qty(item)))
     })))
 
-  function disclosure(title, subtitle, content, kind) {
-    return h('details',{className:'mk-disclosure mk-'+kind+'-panel'},
+  function voucherDisclosure(title, subtitle, content) {
+    return h('details',{className:'mk-disclosure mk-voucher-panel'},
       h('summary',null,
-        kind==='voucher' && h('span',{className:'mk-tier-stack','aria-hidden':true},tiers.slice(0,3).map(t=>h('i',{key:t.id,style:{background:t.seatColor}}))),
+        h('span',{className:'mk-tier-stack','aria-hidden':true},tiers.slice(0,3).map(t=>h('i',{key:t.id,style:{background:t.seatColor}}))),
         h('span',{className:'mk-disclosure-text'},h('strong',null,title),h('small',null,subtitle)),
-        kind==='voucher' && h('b',{className:'mk-offer-percent'},'−15%'),
+        h('b',{className:'mk-offer-percent'},'−15%'),
         h('i',{className:'mk-caret','aria-hidden':true})),
       content)
   }
@@ -72,19 +72,24 @@ function NutcrackerCatalogue({addons, selection, onQuantityChange, seats = [], s
         h('button',{type:'button',className:'mk-info-button','aria-label':'Thông tin voucher',
           'aria-expanded':infoOpen,'aria-controls':infoId,onClick:()=>{infoRef.current.open=!infoRef.current.open}},
           h('span',{'aria-hidden':true},'i'))),
-      h('p',{className:'mk-voucher-offer-note'},'Ưu đãi đặc biệt: Giảm giá 15% cho mọi hạng ghế'),
+      h('p',{className:'mk-voucher-offer-note'},'Ưu đãi đặc biệt: Giảm 15% cho hạng Platinum, Diamond, Gold và Silver'),
       h('details',{className:'mk-banner-info',ref:infoRef,onToggle:e=>setInfoOpen(e.currentTarget.open)},
         h('summary',{'aria-label':'Thông tin sự kiện và điều kiện voucher'},
           h('img',{className:'mk-show-banner',src:'/catalogue/ttc-voucher-banner.webp',alt:'A Tale of Two Christmases'})),
         h('div',{className:'mk-banner-copy',id:infoId},
           h('h4',null,'Thông tin sự kiện'),
+          h('p',{className:'mk-event-intro'},'Trong đêm hòa nhạc Giáng sinh A Tale of Two Christmases 2026, OrcheStars kể câu chuyện mùa đông bằng âm nhạc. Đêm diễn mở màn với những nét vĩ cầm dồn dập trong bản Mùa đông của Vivaldi và khép lại bằng nhịp điệu vui tươi của Jingle Bell Rock.'),
+          h('p',{className:'mk-event-intro'},'Nhạc trưởng Nguyễn Phú Sơn dẫn dắt dàn nhạc giao hưởng, còn Craig Haggart chỉ huy Dàn Hợp xướng Thiếu nhi OrcheStars. Tiếng hát trẻ thơ hòa cùng dàn nhạc qua những trang nhạc Baroque, Cổ điển và những giai điệu Giáng sinh quen thuộc.'),
           h('p',null,'Voucher áp dụng cho 1 trong 4 suất diễn:'),
           h('ul',null,['19/12/2026 · 17:45','19/12/2026 · 20:00','20/12/2026 · 17:30','20/12/2026 · 20:00'].map(slot=>h('li',{key:slot},slot))),
           h('p',null,'Địa điểm: Renaissance Riverside Hotel Saigon.'),
           h('h4',null,'Điều kiện đổi voucher'),
           h('p',null,'Mỗi voucher đổi được 1 vé A Tale of Two Christmases theo đúng hạng đã mua.'))),
-      disclosure('Xem quyền lợi vé',ttcCount?'Đã chọn '+ttcCount+' voucher':tiers.length+' hạng · từ '+money(Math.min(...tiers.map(t=>t.price))),voucherRows,'voucher')),
-    products.length>0 && disclosure('Chọn sản phẩm mua kèm','Đèn portable · '+(merchCount?'Đã chọn '+merchCount+' sản phẩm':groups.size+' mẫu'),merch,'products'))
+      voucherDisclosure('Xem quyền lợi vé',ttcCount?'Đã chọn '+ttcCount+' voucher':tiers.length+' hạng · từ '+money(Math.min(...tiers.map(t=>t.price))),voucherRows)),
+    products.length>0 && h('section',{className:'mk-disclosure mk-products-panel'},
+      h('header',{className:'mk-disclosure-text'},h('h3',null,'Chọn sản phẩm mua kèm'),
+        h('small',null,'Đèn portable · '+(merchCount?'Đã chọn '+merchCount+' sản phẩm':groups.size+' mẫu'))),
+      merch))
 }
 
 function HoldClock({expires}) {

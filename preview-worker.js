@@ -1,7 +1,7 @@
 const base = new URL(self.registration.scope);
 const asset = path => {
   const url = new URL(path, base);
-  url.searchParams.set('v', '20261127-voucher');
+  url.searchParams.set('v', '20261127-voucher-hd');
   return fetch(url);
 };
 const types = asset('types.json').then(response => response.json());
