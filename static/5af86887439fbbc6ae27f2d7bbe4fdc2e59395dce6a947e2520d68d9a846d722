@@ -3,8 +3,10 @@
 function NutcrackerCatalogue({addons, selection, onQuantityChange, seats = [], seatLabel, showDate}) {
   const h = n.createElement
   const [colors,setColors] = n.useState({})
-  const [infoOpen,setInfoOpen] = n.useState(false)
-  const infoRef = n.useRef(null)
+  const infoPopup = n.useRef(null)
+  const benefitsPopup = n.useRef(null)
+  const benefitsId = n.useId()
+  const voucherRef = n.useRef(null)
   const infoId = n.useId()
   const money = v => v.toLocaleString('vi-VN')+' ₫'
 
@@ -44,14 +46,32 @@ function NutcrackerCatalogue({addons, selection, onQuantityChange, seats = [], s
         h('div',{className:'mk-merch-controls'},merchPrice(item),qty(item)))
     })))
 
-  function voucherDisclosure(title, subtitle, content) {
-    return h('details',{className:'mk-disclosure mk-voucher-panel'},
-      h('summary',null,
-        h('span',{className:'mk-tier-stack','aria-hidden':true},tiers.slice(0,3).map(t=>h('i',{key:t.id,style:{background:t.seatColor}}))),
-        h('span',{className:'mk-disclosure-text'},h('strong',null,title),h('small',null,subtitle)),
-        h('b',{className:'mk-offer-percent'},'−15%'),
-        h('i',{className:'mk-caret','aria-hidden':true})),
-      content)
+  function goToVouchers() {
+    voucherRef.current.focus({preventScroll:true})
+    voucherRef.current.scrollIntoView({block:'start'})
+  }
+
+  // The enclosing booking dialog also listens for Escape on document capture.
+  n.useEffect(()=>{
+    function closeTopPopup(event) {
+      if(event.key!=='Escape') return
+      const active=[infoPopup.current,benefitsPopup.current].find(dialog=>dialog?.open)
+      if(!active) return
+      event.preventDefault()
+      event.stopPropagation()
+      active.close()
+    }
+    window.addEventListener('keydown',closeTopPopup,true)
+    return ()=>window.removeEventListener('keydown',closeTopPopup,true)
+  },[])
+
+  function popup(ref, id, title, ...content) {
+    return h('dialog',{ref,id,className:'mk-popup','aria-labelledby':id+'-title',
+      onClick:e=>{if(e.target===e.currentTarget) ref.current.close()}},
+      h('div',{className:'mk-popup-surface'},
+        h('header',null,h('h3',{id:id+'-title'},title),
+          h('button',{type:'button','aria-label':'Đóng',onClick:()=>ref.current.close()},'×')),
+        h('div',{className:'mk-popup-body'},...content)))
   }
 
   const voucherRows = h('div',{className:'mk-voucher-list'},tiers.map(t =>
@@ -70,22 +90,33 @@ function NutcrackerCatalogue({addons, selection, onQuantityChange, seats = [], s
     tiers.length>0 && h('section',{className:'mk-show-offer'},
       h('h3',null,'Voucher “A Tale of Two Christmases”',
         h('button',{type:'button',className:'mk-info-button','aria-label':'Thông tin voucher',
-          'aria-expanded':infoOpen,'aria-controls':infoId,onClick:()=>{infoRef.current.open=!infoRef.current.open}},
+          'aria-haspopup':'dialog','aria-controls':infoId,onClick:()=>infoPopup.current.showModal()},
           h('span',{'aria-hidden':true},'i'))),
       h('p',{className:'mk-voucher-offer-note'},'Ưu đãi đặc biệt: Giảm 15% cho hạng Platinum, Diamond, Gold và Silver'),
-      h('details',{className:'mk-banner-info',ref:infoRef,onToggle:e=>setInfoOpen(e.currentTarget.open)},
-        h('summary',{'aria-label':'Thông tin sự kiện và điều kiện voucher'},
-          h('img',{className:'mk-show-banner',src:'/catalogue/ttc-voucher-banner.webp',alt:'A Tale of Two Christmases'})),
-        h('div',{className:'mk-banner-copy',id:infoId},
-          h('h4',null,'Thông tin sự kiện'),
+      h('div',{className:'mk-banner-info'},
+        h('div',{className:'mk-banner-actions'},
+          h('button',{type:'button',className:'mk-banner-image-button','aria-label':'Thông tin sự kiện và điều kiện voucher',
+            'aria-controls':infoId,'aria-haspopup':'dialog',onClick:()=>infoPopup.current.showModal()},
+            h('img',{className:'mk-show-banner',src:'/catalogue/ttc-voucher-banner.webp',alt:'A Tale of Two Christmases'})),
+          h('button',{type:'button',className:'mk-banner-buy','aria-label':'MUA NGAY',onClick:goToVouchers})), 
+        popup(infoPopup,infoId,'Thông tin sự kiện',h('div',{className:'mk-banner-copy'},
           h('p',{className:'mk-event-intro'},'Trong đêm hòa nhạc Giáng sinh A Tale of Two Christmases 2026, OrcheStars kể câu chuyện mùa đông bằng âm nhạc. Đêm diễn mở màn với những nét vĩ cầm dồn dập trong bản Mùa đông của Vivaldi và khép lại bằng nhịp điệu vui tươi của Jingle Bell Rock.'),
           h('p',{className:'mk-event-intro'},'Nhạc trưởng Nguyễn Phú Sơn dẫn dắt dàn nhạc giao hưởng, còn Craig Haggart chỉ huy Dàn Hợp xướng Thiếu nhi OrcheStars. Tiếng hát trẻ thơ hòa cùng dàn nhạc qua những trang nhạc Baroque, Cổ điển và những giai điệu Giáng sinh quen thuộc.'),
           h('p',null,'Voucher áp dụng cho 1 trong 4 suất diễn:'),
           h('ul',null,['19/12/2026 · 17:45','19/12/2026 · 20:00','20/12/2026 · 17:30','20/12/2026 · 20:00'].map(slot=>h('li',{key:slot},slot))),
           h('p',null,'Địa điểm: Renaissance Riverside Hotel Saigon.'),
           h('h4',null,'Điều kiện đổi voucher'),
-          h('p',null,'Mỗi voucher đổi được 1 vé A Tale of Two Christmases theo đúng hạng đã mua.'))),
-      voucherDisclosure('Xem quyền lợi vé',ttcCount?'Đã chọn '+ttcCount+' voucher':tiers.length+' hạng · từ '+money(Math.min(...tiers.map(t=>t.price))),voucherRows)),
+          h('p',null,'Mỗi voucher đổi được 1 vé A Tale of Two Christmases theo đúng hạng đã mua.')))),
+      h('section',{className:'mk-disclosure mk-voucher-panel',ref:voucherRef,tabIndex:-1,'aria-label':'Xem voucher sự kiện'},
+        h('header',{className:'mk-voucher-heading'},
+          h('div',{className:'mk-disclosure-text'},h('h4',null,'Xem voucher sự kiện'),
+            h('small',null,ttcCount?'Đã chọn '+ttcCount+' voucher':tiers.length+' hạng · từ '+money(Math.min(...tiers.map(t=>t.price))))),
+          h('button',{className:'mk-benefits-link',type:'button','aria-controls':benefitsId,'aria-haspopup':'dialog',
+            onClick:()=>benefitsPopup.current.showModal()},'Xem quyền lợi')),
+        popup(benefitsPopup,benefitsId,'Quyền lợi theo hạng vé',h('div',{className:'mk-benefits'},tiers.map(t=>
+          h('article',{key:t.id,style:{'--tier':t.seatColor}},
+            h('h5',null,t.tier),h('ul',null,t.benefits.map(benefit=>h('li',{key:benefit},benefit))))))),
+        voucherRows)),
     products.length>0 && h('section',{className:'mk-disclosure mk-products-panel'},
       h('header',{className:'mk-disclosure-text'},h('h3',null,'Chọn sản phẩm mua kèm'),
         h('small',null,'Đèn portable · '+(merchCount?'Đã chọn '+merchCount+' sản phẩm':groups.size+' mẫu'))),

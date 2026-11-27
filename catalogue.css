@@ -192,7 +192,7 @@ body, body * {font-family:gilroy,sans-serif !important}
 .mk-info-button {flex:none;display:grid;place-items:center;width:28px;height:28px;color:#075f83;cursor:pointer}
 .mk-info-button span {display:grid;place-items:center;width:17px;height:17px;border:1.5px solid currentColor;border-radius:50%;font-size:12px;line-height:1;font-weight:700}
 .mk-info-button[aria-expanded="true"] span {background:#075f83;border-color:#075f83;color:white}
-.mk-show-offer .mk-show-banner {display:block;width:100%;height:auto;aspect-ratio:2076 / 864;object-fit:contain;margin-bottom:12px}
+.mk-show-offer .mk-show-banner {display:block;width:100%;height:auto;aspect-ratio:1944 / 809;object-fit:contain;margin-bottom:12px}
 .mk .mk-disclosure {margin:0;min-width:0;background:white;border:1px solid #d8dfe6;border-radius:12px}
 .mk .mk-disclosure > summary {display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px;padding:10px 14px;color:#14202e;font-size:1rem;list-style:none}
 .mk-disclosure > summary::-webkit-details-marker {display:none}
@@ -271,16 +271,17 @@ aside:has(> .mk-summary) > button {background:#111827;color:white;min-height:47p
 }
 
 .mk .mk-banner-info {margin:0 0 12px}
-.mk-banner-info > summary {display:block;position:relative;border-radius:12px;list-style:none}
-.mk-banner-info > summary::-webkit-details-marker {display:none}
+.mk-banner-actions {position:relative}
+.mk-banner-image-button {display:block;width:100%;border-radius:12px;cursor:pointer}
+/* Hit target centered on the CTA printed inside the voucher artwork. */
+.mk-banner-buy {position:absolute;left:13%;top:85.8%;transform:translateY(-50%);width:29%;height:12%;min-height:36px;padding:0;border:0;border-radius:999px;background:transparent;cursor:pointer}
+.mk-banner-actions button:focus-visible {outline:3px solid #147bb3;outline-offset:2px}
 .mk-banner-info .mk-show-banner {margin:0}
-.mk-banner-info > summary span {display:block;padding:7px 0 2px;color:#075f83;text-decoration:underline;text-underline-offset:2px}
 .mk-banner-copy {padding:10px 12px;background:#f5f7f9;border-radius:8px;margin-top:6px}
 .mk-banner-copy h4:not(:first-child) {margin-top:8px}
 .mk-banner-copy p {line-height:1.5}
 .mk-banner-copy .mk-event-intro {margin:4px 0 10px}
 .mk-show-offer .mk-voucher-offer-note {margin:-3px 0 10px;font-size:.8rem}
-.mk-banner-info > summary span {position:absolute;bottom:8px;right:8px;background:#fff;color:#263344;border-radius:5px;padding:3px 6px;font-size:.7rem}
 .mk .mk-voucher-panel > summary {gap:8px}
 .mk-tier-stack {display:flex;padding-right:5px;flex:none}
 .mk-tier-stack i {width:17px;height:21px;border-radius:5px;border:1px solid white;margin-right:-5px}
@@ -347,3 +348,19 @@ aside:has(> .mk-summary) > button {background:#111827;color:white;min-height:47p
   .mk-tier-stack i {width:16px;height:20px;margin-right:-6px}
   .mk-tier-stack {padding-right:6px}
 }
+
+.mk-voucher-heading {display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px}
+.mk-voucher-heading > .mk-benefits-link {font-size:.8125rem;line-height:1.4;font-weight:500}
+.mk-benefits-link {color:#075f83;font-weight:600;text-decoration:underline;text-underline-offset:3px;min-height:44px}
+.mk-benefits:not([hidden]) {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:8px;padding:0 12px 12px}
+.mk-benefits article {padding:10px 12px;border-left:3px solid var(--tier);background:#f6f7f8;border-radius:5px;font-size:.85rem}
+.mk-benefits h5 {font-weight:700}.mk-benefits ul {list-style:disc;padding-inline-start:18px;line-height:1.55}
+
+.mk-popup {position:fixed;inset:0;margin:auto;width:min(560px,calc(100% - 24px));max-width:none;max-height:calc(100dvh - 32px);border:0;border-radius:16px;padding:0;color:#14202e;background:white;box-shadow:0 12px 48px #11182738;overscroll-behavior:contain}
+.mk-popup::backdrop {background:#10182880}
+.mk-popup-surface > header {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 10px 6px 16px;border-bottom:1px solid #e2e6ea;position:sticky;top:0;background:white}
+.mk-popup-surface h3 {font-size:1rem;font-weight:700}
+.mk-popup-surface > header button {width:44px;height:44px;font-size:24px}
+.mk-popup-body {padding:12px}
+.mk-popup .mk-banner-copy {background:white;margin:0;padding:0}
+.mk-popup .mk-benefits {padding:0}
