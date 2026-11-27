@@ -1,5 +1,9 @@
 const base = new URL(self.registration.scope);
-const asset = path => fetch(new URL(path, base));
+const asset = path => {
+  const url = new URL(path, base);
+  url.searchParams.set('v', '20261127-voucher');
+  return fetch(url);
+};
 const types = asset('types.json').then(response => response.json());
 self.addEventListener('install', event => event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
