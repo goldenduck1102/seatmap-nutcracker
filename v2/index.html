@@ -1,0 +1,21 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chọn vé Nutcracker 2026</title><p role="status">Đang mở sơ đồ ghế…</p><script>
+(async () => {
+  try {
+    const worker = new URL('./preview-worker.js', location.href).href;
+    await navigator.serviceWorker.register(worker);
+    await new Promise(resolve => {
+      function check() {
+        if (navigator.serviceWorker.controller?.scriptURL === worker) {
+          navigator.serviceWorker.removeEventListener('controllerchange', check);
+          resolve();
+        }
+      }
+      navigator.serviceWorker.addEventListener('controllerchange', check);
+      check();
+    });
+    location.reload();
+  } catch {
+    document.querySelector('p').textContent = 'Vui lòng mở lại trang trong Safari, Chrome hoặc Firefox để xem sơ đồ ghế.';
+  }
+})();
+</script></html>

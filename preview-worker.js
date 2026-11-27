@@ -32,5 +32,6 @@ async function preview(request, url) {
 }
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
+  if (url.pathname.startsWith(new URL('v2/', base).pathname)) return;
   if (url.origin === base.origin) event.respondWith(preview(event.request,url));
 });
