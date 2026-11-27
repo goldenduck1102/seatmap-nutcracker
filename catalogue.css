@@ -36,7 +36,6 @@ body, body * {font-family:gilroy,sans-serif !important}
 .mk-chips button[aria-pressed=true] small {color:#cfd6de}
 .mk-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .mk-card {border:1px solid #e1e6ec;border-radius:12px;padding:10px;display:grid;gap:8px;align-content:start}
-.mk-card.on {border-color:#14202e;box-shadow:0 0 0 1px #14202e}
 .mk-card img {width:100%;aspect-ratio:3/2;object-fit:contain;border-radius:8px;background:white}
 .mk-row {display:flex;justify-content:space-between;align-items:center;gap:6px}
 .mk-event {display:flex;gap:14px;align-items:center;padding:14px;border-radius:12px;background:#f5f6f8;margin-bottom:6px}
@@ -207,7 +206,7 @@ body, body * {font-family:gilroy,sans-serif !important}
 .mk-products-panel > div {padding:0 8px 8px}
 .mk-voucher-list {padding:0 10px 10px}
 .mk-voucher-line {display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid #e5e8eb}
-.mk-voucher-line.selected {background:#fdf4f3}
+.mk-card.on,.mk-voucher-line.selected {background:#fdf4f3}
 .mk-stub {width:58px;height:58px;display:flex;flex-direction:column;justify-content:flex-end;padding:6px;background:linear-gradient(140deg,var(--tier),color-mix(in srgb,var(--tier) 56%,#14202e));border-radius:7px;color:white;font-size:10px;font-weight:700;text-transform:uppercase}
 .mk-stub small {font-size:8px}.mk-line-info del {font-size:.78rem;color:#596579;margin-left:5px}
 .mk-voucher-list > a {display:inline-block;padding:8px 0;color:#075f83;text-decoration:underline;font-size:.85rem}
@@ -228,6 +227,7 @@ body:has([role="dialog"][data-state="open"]) .mua_ve_ngay {display:none}
   padding:10px;
 }
 .mk-products-panel .mk-card > img {grid-area:1/1/4/2;align-self:center;aspect-ratio:1;object-fit:contain}
+.mk-products-panel .mk-card.on > img {background:transparent;mix-blend-mode:multiply}
 .mk-products-panel .mk-card > div {grid-column:2;min-width:0}
 .mk-products-panel .mk-merch-controls {grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:2px 4px}
 .mk-products-panel .mk-merch-price del {grid-area:1/1}
